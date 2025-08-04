@@ -1,0 +1,24 @@
+{
+	"name": "MedAgentBoard",
+	"version": "1.0.0",
+	"description": "HealthFlow: A Self-Evolving AI Agent with Meta Planning for Autonomous Healthcare Research",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"keywords": [
+		"benchmark",
+		"multi-agent"
+	],
+	"devDependencies": {
+		"@tailwindcss/vite": "^4.1.6",
+		"postcss": "^8.5.3",
+		"tailwindcss": "^4.1.6",
+		"vite": "^6.3.5"
+	},
+	"dependencies": {
+		"alpinejs": "^3.14.9"
+	}
+}

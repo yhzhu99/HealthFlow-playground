@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthFlow: A Self-Evolving AI Agent for Autonomous Healthcare Research</title>
+  <link rel="stylesheet" href="./src/css/main.css">
+  <link rel="icon" href="./favicon.ico" type="image/x-icon"> <!-- Optional: Add your favicon -->
+  <script type="module">
+    import Alpine from 'alpinejs';
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+  <style>
+    /* Small style for image placeholder if image is missing */
+    .framework-img-placeholder {
+      background-color: #e0f2fe; /* primary-100 or a light blue/sky */
+      border: 2px dashed #0ea5e9; /* primary-500 or a medium blue/sky */
+      color: #0369a1; /* primary-700 or a dark blue/sky */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.875rem;
+      min-height: 200px; /* Adjust as needed */
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans antialiased">
+
+  <div x-data="{ mobileMenuOpen: false }" class="min-h-screen flex flex-col">
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 bg-white/90 backdrop-blur-md shadow-sm z-50">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex-shrink-0">
+            <a href="#" class="text-2xl font-bold text-primary-700 hover:text-primary-600 transition-colors">HealthFlow</a>
+          </div>
+          <div class="hidden md:flex space-x-6">
+            <a href="#abstract" class="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Abstract</a>
+            <a href="#framework" class="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Framework</a>
+            <a href="#results" class="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Results</a>
+            <a href="#resources" class="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Resources</a>
+            <a href="#citation" class="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Citation</a>
+          </div>
+          <!-- Mobile menu button -->
+          <div class="-mr-2 flex md:hidden">
+            <button type="button" @click="mobileMenuOpen = !mobileMenuOpen" class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500" aria-controls="mobile-menu" :aria-expanded="mobileMenuOpen.toString()">
+              <span class="sr-only">Open main menu</span>
+              <svg :class="{'hidden': mobileMenuOpen, 'block': !mobileMenuOpen }" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <svg :class="{'block': mobileMenuOpen, 'hidden': !mobileMenuOpen }" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Mobile menu -->
+      <div x-show="mobileMenuOpen"
+           x-transition:enter="transition ease-out duration-200"
+           x-transition:enter-start="opacity-0 scale-95"
+           x-transition:enter-end="opacity-100 scale-100"
+           x-transition:leave="transition ease-in duration-150"
+           x-transition:leave-start="opacity-100 scale-100"
+           x-transition:leave-end="opacity-0 scale-95"
+           class="md:hidden" id="mobile-menu" @click.away="mobileMenuOpen = false">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <a href="#abstract" @click="mobileMenuOpen = false" class="text-gray-700 hover:bg-gray-50 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors">Abstract</a>
+          <a href="#framework" @click="mobileMenuOpen = false" class="text-gray-700 hover:bg-gray-50 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors">Framework</a>
+          <a href="#results" @click="mobileMenuOpen = false" class="text-gray-700 hover:bg-gray-50 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors">Results</a>
+          <a href="#resources" @click="mobileMenuOpen = false" class="text-gray-700 hover:bg-gray-50 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors">Resources</a>
+          <a href="#citation" @click="mobileMenuOpen = false" class="text-gray-700 hover:bg-gray-50 hover:text-primary-600 block px-3 py-2 rounded-md text-base font-medium transition-colors">Citation</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-gradient-to-br from-primary-700 to-primary-600 text-gray-800 pt-16 pb-20 shadow-xl">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-3">HealthFlow</h1>
+        <p class="text-xl sm:text-2xl text-gray-700 mb-8 max-w-3xl">A Self-Evolving AI Agent with Meta Planning for Autonomous Healthcare Research</p>
+        <div class="flex flex-wrap gap-4 mb-10">
+          <a href="#" class="inline-flex items-center gap-2 px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-primary-700 bg-white hover:bg-primary-50 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+              <path d="M3.5 2.75a.75.75 0 00-1.5 0v14.5a.75.75 0 001.5 0v-14.5z" />
+              <path d="M5.25 2A2.25 2.25 0 003 4.25v11.5A2.25 2.25 0 005.25 18h9.5A2.25 2.25 0 0017 15.75V4.25A2.25 2.25 0 0014.75 2h-9.5zM15.5 4.25v11.5a.75.75 0 01-.75.75h-9.5a.75.75 0 01-.75-.75V4.25a.75.75 0 01.75-.75h9.5a.75.75 0 01.75.75z" />
+              <path d="M8.25 7.846a.75.75 0 000 1.06l2.25 2.25a.75.75 0 001.06-1.06L9.842 8.372l1.718-1.718a.75.75 0 00-1.06-1.06l-2.25 2.25z" />
+            </svg>
+            Read Paper (Coming Soon)
+          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 border border-primary-200 text-base font-medium rounded-md text-gray-800 bg-primary-700/50 hover:bg-primary-700/80 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+              <path fill-rule="evenodd" d="M10 0C4.477 0 0 4.477 0 10c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.218.682-.484 0-.238-.009-.868-.013-1.703-2.782.602-3.369-1.34-3.369-1.34-.454-1.151-1.11-1.458-1.11-1.458-.908-.62.069-.608.069-.608 1.003.074 1.532 1.029 1.532 1.029.891 1.529 2.341 1.088 2.91.832.092-.647.349-1.088.635-1.338-2.22-.251-4.555-1.111-4.555-4.935 0-1.088.39-1.979 1.029-2.675-.103-.252-.446-1.266.098-2.638 0 0 .84-.269 2.75 1.025A9.547 9.547 0 0110 4.837a9.544 9.544 0 012.505.336c1.909-1.294 2.748-1.025 2.748-1.025.546 1.372.202 2.386.1 2.638.64.696 1.028 1.587 1.028 2.675 0 3.834-2.338 4.681-4.567 4.927.359.307.679.915.679 1.845 0 1.332-.012 2.407-.012 2.734 0 .269.18.579.688.48C17.138 18.163 20 14.417 20 10A10 10 0 0010 0z" clip-rule="evenodd" />
+            </svg>
+            View Code (Coming Soon)
+          </a>
+        </div>
+        <div class="text-sm text-gray-600 max-w-4xl">
+          <p class="mb-2">
+            The HealthFlow Authors<sup>1,2</sup>
+          </p>
+          <p class="mb-1 text-xs"><sup>1</sup>Institute for AI Research, <sup>2</sup>University of Health Sciences</p>
+          <p class="mb-1 text-xs">Correspondence:
+            <a href="mailto:contact@healthflow.dev" class="hover:underline">contact@healthflow.dev</a>
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <!-- Abstract -->
+      <section id="abstract" class="mb-16 scroll-mt-20">
+        <h2 class="text-3xl font-semibold tracking-tight text-primary-700 mb-3 border-b-2 border-primary-200 pb-3">Abstract</h2>
+        <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed space-y-4">
+          <p>
+            The efficacy of AI agents in healthcare research is hindered by their reliance on static, predefined strategies. This creates a critical limitation: agents can become better tool-users but cannot learn to become better strategic planners, a crucial skill for complex domains like healthcare. We introduce <strong class="text-primary-600">HealthFlow</strong>, a self-evolving AI agent that overcomes this limitation through a novel meta-level evolution mechanism. HealthFlow autonomously refines its own high-level problem-solving policies by distilling procedural successes and failures into a durable, strategic knowledge base.
+          </p>
+          <p>
+            To anchor our research and facilitate reproducible evaluation, we introduce <strong class="text-primary-600">EHRFlowBench</strong>, a new benchmark featuring complex, realistic health data analysis tasks derived from peer-reviewed clinical research. Our comprehensive experiments demonstrate that HealthFlow's self-evolving approach significantly outperforms state-of-the-art agent frameworks. This work marks a necessary shift from building better tool-users to designing smarter, self-evolving task-managers, paving the way for more autonomous and effective AI for scientific discovery.
+          </p>
+        </div>
+      </section>
+
+      <!-- Framework Overview -->
+      <section id="framework" class="mb-16 scroll-mt-20">
+        <h2 class="text-3xl font-semibold tracking-tight text-primary-700 mb-6 border-b-2 border-primary-200 pb-3">HealthFlow Framework</h2>
+        <div class="mb-8 bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+          <img src="./images/framework.png" alt="HealthFlow Framework Overview" class="w-full max-w-8xl mx-auto rounded-md shadow-md framework-img-placeholder">
+          <p class="text-sm text-center mt-3 text-gray-600">The self-evolving architecture of HealthFlow. The framework operates in a continuous learning loop. (1) A task is received by the meta agent, which generates a strategic plan by retrieving relevant past experiences. (2) The executor agent executes this plan using tools, producing results and detailed logs. (3) The evaluator agent assesses the execution, providing feedback for short-term correction. (4) Upon success, the reflector agent analyzes the entire process to synthesize abstract experience, which is stored in a persistent memory to augment the meta agent's strategic capabilities for future tasks.</p>
+        </div>
+
+        <!-- Component tabs -->
+        <div x-data="{ activeTab: 'meta' }" class="mt-8">
+          <div class="border-b border-gray-300">
+            <nav class="-mb-px flex space-x-4 sm:space-x-8" aria-label="Tabs">
+              <button @click="activeTab = 'meta'" :class="{ 'border-primary-500 text-primary-600': activeTab === 'meta', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeTab !== 'meta' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                Meta Agent
+              </button>
+              <button @click="activeTab = 'executor'" :class="{ 'border-primary-500 text-primary-600': activeTab === 'executor', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeTab !== 'executor' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                Executor Agent
+              </button>
+              <button @click="activeTab = 'evaluator'" :class="{ 'border-primary-500 text-primary-600': activeTab === 'evaluator', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeTab !== 'evaluator' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                Evaluator Agent
+              </button>
+              <button @click="activeTab = 'reflector'" :class="{ 'border-primary-500 text-primary-600': activeTab === 'reflector', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeTab !== 'reflector' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                Reflector Agent
+              </button>
+            </nav>
+          </div>
+
+          <div class="mt-6">
+            <!-- Meta Agent Content -->
+            <div x-show="activeTab === 'meta'" x-transition.opacity.duration.300ms class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+              <h3 class="text-2xl font-semibold text-primary-700 mb-4">Meta Agent: Strategic Planner</h3>
+              <p class="mb-2 text-gray-700 leading-relaxed">
+                Functions as the cognitive hub, responsible for high-level strategic planning. It translates a user's research request into a concrete, executable plan.
+              </p>
+              <p class="text-gray-700 leading-relaxed">
+                Crucially, its planning is dynamically informed by accumulated knowledge from a persistent experience memory, allowing it to adapt its overarching strategy and evolve over time by incorporating learned best practices and avoiding previously identified pitfalls.
+              </p>
+            </div>
+
+            <!-- Executor Agent Content -->
+            <div x-show="activeTab === 'executor'" x-transition.opacity.duration.300ms class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+              <h3 class="text-2xl font-semibold text-primary-700 mb-4">Executor Agent: Execution Engine</h3>
+              <p class="mb-2 text-gray-700 leading-relaxed">
+                A dedicated engine that translates strategic plans into concrete, tool-based operations within a secure, isolated workspace.
+              </p>
+               <p class="text-gray-700 leading-relaxed">
+                It utilizes fundamental tools like a Python interpreter and shell, meticulously recording every command, output, and intermediate file to generate a comprehensive execution log for later analysis and reflection.
+              </p>
+            </div>
+
+            <!-- Evaluator Agent Content -->
+            <div x-show="activeTab === 'evaluator'" x-transition.opacity.duration.300ms class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+              <h3 class="text-2xl font-semibold text-primary-700 mb-4">Evaluator Agent: Short-term Corrector</h3>
+              <p class="mb-2 text-gray-700 leading-relaxed">
+                Serves as an impartial critic, providing immediate, task-specific feedback to drive iterative improvement within a single task attempt.
+              </p>
+               <p class="text-gray-700 leading-relaxed">
+                It assesses execution artifacts against the original request, producing quantitative scores and qualitative feedback to diagnose failures and guide the meta agent in a tight self-correction loop.
+              </p>
+            </div>
+
+            <!-- Reflector Agent Content -->
+            <div x-show="activeTab === 'reflector'" x-transition.opacity.duration.300ms class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+              <h3 class="text-2xl font-semibold text-primary-700 mb-4">Reflector Agent: Long-term Knowledge Synthesizer</h3>
+              <p class="mb-2 text-gray-700 leading-relaxed">
+                The engine of HealthFlow's long-term, meta-level evolution. Its role transcends the immediate correction of a single task.
+              </p>
+              <p class="text-gray-700 leading-relaxed">
+                After a task is successfully completed, it analyzes the entire execution trace to distill abstract, generalizable knowledge. It synthesizes this analysis into structured experiences—like heuristics, workflow patterns, or code snippets—which are committed to persistent memory to enhance future strategic planning.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key Results -->
+      <section id="results" class="mb-16 scroll-mt-20">
+        <h2 class="text-3xl font-semibold tracking-tight text-primary-700 mb-6 border-b-2 border-primary-200 pb-3">Key Results</h2>
+
+        <div x-data="{ activeResult: 'overall' }" class="mt-6">
+          <div class="border-b border-gray-300">
+            <nav class="-mb-px flex space-x-4 sm:space-x-8" aria-label="Tabs">
+              <button @click="activeResult = 'overall'" :class="{ 'border-primary-500 text-primary-600': activeResult === 'overall', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeResult !== 'overall' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                Overall Performance
+              </button>
+              <button @click="activeResult = 'ablation'" :class="{ 'border-primary-500 text-primary-600': activeResult === 'ablation', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeResult !== 'ablation' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                Ablation Studies
+              </button>
+              <button @click="activeResult = 'backbone'" :class="{ 'border-primary-500 text-primary-600': activeResult === 'backbone', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeResult !== 'backbone' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                LLM Backbone Impact
+              </button>
+              <button @click="activeResult = 'human'" :class="{ 'border-primary-500 text-primary-600': activeResult === 'human', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeResult !== 'human' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm outline-none transition-colors">
+                Human Evaluation
+              </button>
+            </nav>
+          </div>
+
+          <div class="mt-6 bg-white p-6 sm:p-8 rounded-lg shadow-xl border border-gray-200">
+            <!-- Result 1 -->
+            <div x-show="activeResult === 'overall'" x-transition.opacity.duration.300ms>
+              <h3 class="text-xl font-bold mb-4 text-primary-700">Dominant Performance on Agentic Benchmarks</h3>
+              <ul class="space-y-3 text-gray-700 leading-relaxed">
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Superior Execution:</strong> HealthFlow significantly outperforms all baselines on complex agentic benchmarks like EHRFlowBench and MedAgentBoard, which require coding, data exploration, and analysis.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>High Win Rate:</strong> In head-to-head comparisons, HealthFlow achieves a dominant win rate against all competing frameworks, showcasing its robust capabilities in end-to-end research tasks.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Competitive Reasoning:</strong> On knowledge-intensive QA tasks, HealthFlow performs competitively, matching other leading agents.</span></li>
+              </ul>
+            </div>
+
+            <!-- Result 2 -->
+            <div x-show="activeResult === 'ablation'" x-transition.opacity.duration.300ms>
+              <h3 class="text-xl font-bold mb-4 text-primary-700">The Value of an Evolving Architecture</h3>
+              <ul class="space-y-3 text-gray-700 leading-relaxed">
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Feedback is Crucial:</strong> Removing the feedback loop (evaluator & reflector) causes a major performance drop, proving that iterative correction is fundamental to success.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Experience Provides an Edge:</strong> Disabling the long-term experience memory also degrades performance, showing that accumulating strategic knowledge provides a durable advantage over simple trial-and-error.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>"On-the-fly" Learning:</strong> The system's ability to learn from new tasks is powerful, demonstrating strong test-time adaptation even without a pre-populated experience memory.</span></li>
+              </ul>
+            </div>
+
+            <!-- Result 3 -->
+            <div x-show="activeResult === 'backbone'" x-transition.opacity.duration.300ms>
+              <h3 class="text-xl font-bold mb-4 text-primary-700">LLM Choice is Critical for Agent Success</h3>
+              <ul class="space-y-3 text-gray-700 leading-relaxed">
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Smarter Planner, Better Outcome:</strong> Using a more powerful "frontend" reasoning model for planning and reflection directly translates to better strategic outcomes and higher success rates.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Execution Fidelity Matters:</strong> A high-fidelity "backend" executor model is equally important. Failures in basic instruction-following (e.g., misinterpreting file paths) can cause total task failure, regardless of the plan's quality.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Separation of Concerns:</strong> The optimal setup requires a powerful general reasoner for high-level strategy and a reliable, instruction-following coder for execution.</span></li>
+              </ul>
+            </div>
+
+            <!-- Result 4 -->
+            <div x-show="activeResult === 'human'" x-transition.opacity.duration.300ms>
+              <h3 class="text-xl font-bold mb-4 text-primary-700">Experts Overwhelmingly Prefer HealthFlow</h3>
+              <ul class="space-y-3 text-gray-700 leading-relaxed">
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Blind Review:</strong> In a blind head-to-head comparison, 12 domain experts (PhDs/MDs in AI for healthcare, biostatistics, etc.) evaluated solutions from HealthFlow and other leading agents.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Clear Winner:</strong> The expert evaluators overwhelmingly preferred solutions generated by HealthFlow across a diverse set of research tasks.</span></li>
+                <li class="flex items-start"><span class="text-primary-600 mr-2 mt-1 flex-shrink-0">◆</span><span><strong>Practical Utility:</strong> This result validates the practical utility and superior quality of HealthFlow's outputs for real-world healthcare research challenges.</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Resources -->
+      <section id="resources" class="mb-16 scroll-mt-20">
+        <h2 class="text-3xl font-semibold tracking-tight text-primary-700 mb-6 border-b-2 border-primary-200 pb-3">Resources</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <a href="#" class="block bg-white p-6 rounded-lg shadow-lg border border-gray-200 hover:shadow-xl hover:border-primary-300 transition-all duration-300 group">
+            <h3 class="font-bold text-xl mb-3 text-primary-700 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-primary-500">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+              </svg>
+              Paper
+            </h3>
+            <p class="text-gray-600 mb-4 leading-relaxed">Read our full research paper, which details the HealthFlow architecture, the EHRFlowBench benchmark, and our comprehensive experimental results.</p>
+            <span class="text-primary-600 hover:text-primary-800 font-medium inline-flex items-center">
+              View Paper
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            </span>
+          </a>
+
+          <a href="#" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-lg border border-gray-200 hover:shadow-xl hover:border-primary-300 transition-all duration-300 group">
+            <h3 class="font-bold text-xl mb-3 text-primary-700 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-primary-500">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
+              </svg>
+              Code
+            </h3>
+            <p class="text-gray-600 mb-4 leading-relaxed">Access the full source code for HealthFlow, including implementations of all agent components and the experience evolution mechanism, on our GitHub repository.</p>
+            <span class="text-primary-600 hover:text-primary-800 font-medium inline-flex items-center">
+              View on GitHub
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            </span>
+          </a>
+
+          <a href="#" target="_blank" rel="noopener noreferrer" class="block bg-white p-6 rounded-lg shadow-lg border border-gray-200 hover:shadow-xl hover:border-primary-300 transition-all duration-300 group">
+            <h3 class="font-bold text-xl mb-3 text-primary-700 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-primary-500">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5-3.75h-1.875a.375.375 0 0 0-.375.375v11.25c0 .098.03.192.083.275.053.083.13.15.217.188H12M3.75 6.375h1.875a.375.375 0 0 1 .375.375v11.25c0 .098-.03.192-.083.275-.053.083-.13.15-.217.188H12" />
+              </svg>
+              EHRFlowBench
+            </h3>
+            <p class="text-gray-600 mb-4 leading-relaxed">Explore our new benchmark, EHRFlowBench, featuring 110 realistic health data analysis tasks derived from peer-reviewed clinical research.</p>
+            <span class="text-primary-600 hover:text-primary-800 font-medium inline-flex items-center">
+              Access Benchmark
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+            </span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Citation -->
+      <section id="citation" class="mb-12 scroll-mt-20">
+        <h2 class="text-3xl font-semibold tracking-tight text-primary-700 mb-6 border-b-2 border-primary-200 pb-3">Citation</h2>
+        <div class="bg-gray-800 text-gray-200 p-6 rounded-lg font-mono text-sm overflow-x-auto shadow-lg">
+          <pre class="whitespace-pre-wrap break-words" aria-label="BibTeX citation code">@inproceedings{healthflow2026,
+  title={{HealthFlow: A Self-Evolving AI Agent with Meta Planning for Autonomous Healthcare Research}},
+  author={The HealthFlow Authors},
+  booktitle={Proceedings of the Fortieth AAAI Conference on Artificial Intelligence},
+  year={2026},
+  publisher={AAAI Press}
+}</pre>
+        </div>
+          <button
+            @click="navigator.clipboard.writeText(document.querySelector('#citation pre').innerText); alert('Citation copied to clipboard!')"
+            class="mt-4 inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+            </svg>
+            Copy Citation
+          </button>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400 py-12">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-3 gap-8 mb-8">
+          <div>
+            <h3 class="text-lg font-semibold text-white mb-4">Contact</h3>
+            <ul class="space-y-2 text-sm">
+            <p><a href="mailto:contact@healthflow.dev" class="hover:text-primary-300 transition-colors">contact@healthflow.dev</a></p>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-white mb-4">Affiliations</h3>
+            <ul class="space-y-2 text-sm">
+              <li>Institute for AI Research</li>
+              <li>University of Health Sciences</li>
+            </ul>
+          </div>
+           <div>
+            <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#" class="hover:text-primary-300 transition-colors">Paper (Coming Soon)</a></li>
+              <li><a href="#" target="_blank" rel="noopener noreferrer" class="hover:text-primary-300 transition-colors">Code (GitHub)</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm">
+          <p>© 2026 The HealthFlow Authors. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
